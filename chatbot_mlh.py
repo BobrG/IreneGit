@@ -19,7 +19,10 @@ def parsing(urs):
     if json_text['total'] != 0:
         for i in json_text['values']:
             names[0].append(str(k) + '. ' + i['name'])
-            names[1].append(i["location"]["address"])
+            if "address" in i["location"].keys():
+                names[1].append(i["location"]["address"])
+            else:
+                names[1].append(i["location"]["city"])
             k += 1
 
     return names
@@ -48,6 +51,7 @@ def remind(message):
             bot.send_message(user, i)
             button(message,j)
         map_pic = pic(urs + '&fields=location&sort=+starts_at')
+        print(urs)
         if map_pic != 'Мы ничего не нашли':
             bot.send_photo(user, map_pic)
 
